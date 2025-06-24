@@ -11,3 +11,5 @@ void count_finished_in(struct proc *p);
 
 void accounting(struct queue *q);
 
+void count_ready2_in(struct proc * p);
+void count_ready2_out(struct proc * p);

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "queue.h"
 #include "proc.h"
@@ -6,10 +7,11 @@
 #include "utils.h"
 
 extern struct queue * ready;
-extern struct queue * ready2;
 extern struct queue * blocked;
 extern struct queue * finished;
 extern int MAX_TIME;
+
+struct proc * dequeue_bypid(struct queue * q, int pid);  // Declaração se não estiver no .h
 
 struct proc * scheduler(struct proc * current)
 {
@@ -40,24 +42,23 @@ struct proc * scheduler(struct proc * current)
         }
     }
 
-    // Se a fila estiver vazia, não há processo para escalar
     if (isempty(ready)) {
         return NULL;
     }
 
-    // Busca o processo com maior remaining_time
-    struct node * aux = ready->first;
-    struct node * maior = aux;
+    // LJF: seleciona o processo com MAIOR remaining_time
+    struct proc * aux = ready->head;
+    struct proc * maior = aux;
 
     while (aux != NULL) {
-        if (aux->proc->remaining_time > maior->proc->remaining_time) {
+        if (aux->remaining_time > maior->remaining_time) {
             maior = aux;
         }
         aux = aux->next;
     }
 
-    // Remove da fila
-    selected = removepid(ready, maior->proc->pid);
+    // Remove da fila o processo com maior tempo restante
+    selected = dequeue_bypid(ready, maior->pid);
     count_ready_out(selected);
     selected->state = RUNNING;
 

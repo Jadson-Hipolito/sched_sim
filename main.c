@@ -16,6 +16,8 @@
 // Número de processos
 int NPROC;
 
+void accounting(struct queue *q);
+
 // Tempo máximo da execução total de um processo (microsegundos)
 int MAX_TIME = 100;
 
@@ -142,6 +144,10 @@ int main (int argc, char *argv[])
 
     // Finalizando os processos
     procend(finished);
+
+    // ✅ Chamada adicionada para imprimir as estatísticas
+    accounting(finished);
+
     
     // Finalizando o semaforo
     sem_destroy(&sem_scheduling);

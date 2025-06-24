@@ -4,6 +4,7 @@
 #include "proc.h"
 #include "stats.h"
 #include "utils.h"
+#include <stdlib.h>
 
 // Filas globais
 extern struct queue * ready;
